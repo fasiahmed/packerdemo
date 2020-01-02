@@ -1,16 +1,19 @@
 {
     "variables": {
+        "aws_access_key": "",
+        "aws_secret_key": "",
         "instance_size": "t2.small",
         "ami_name": "ami-dragen",
         "base_ami": "ami-1853ac65",
         "ssh_username": "ec2-user",
         "vpc_id": "",
+        "vpc_region": "",
         "subnet_id": ""
     },
     "builders":[
         {
             "type": "amazon-ebs",
-            "region": "us-east-1",
+            "region": "{{user `vpc_region`}}",
             "source_ami": "{{user `base_ami`}}",
             "instance_type": "{{user `instance_size`}}",
             "ssh_username": "{{user `ssh_username`}}",
