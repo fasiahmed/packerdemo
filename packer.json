@@ -16,7 +16,7 @@
             "access_key": "{{user `aws_access_key`}}",
             "secret_key": "{{user `aws_secret_key`}}",
             "region": "{{user `vpc_region`}}",
-            "source_ami": "{{user `base_ami`}}"
+            "source_ami": "{{user `base_ami`}}",
             "instance_type": "{{user `instance_size`}}",
             "ssh_username": "{{user `ssh_username`}}",
             "associate_public_ip_address": true,
