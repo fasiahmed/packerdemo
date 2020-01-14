@@ -4,7 +4,7 @@
         "aws_secret_key": "",
         "instance_size": "t2.small",
         "ami_name": "ami-dragen",
-        "base_ami": "ami-1853ac65",
+        "base_ami": "ami-337be65c",
         "ssh_username": "centos",
         "vpc_id": "",
         "vpc_region": "",
@@ -16,14 +16,7 @@
             "access_key": "{{user `aws_access_key`}}",
             "secret_key": "{{user `aws_secret_key`}}",
             "region": "{{user `vpc_region`}}",
-            "source_ami_filter": {
-                "filters": {
-                    "owner-alias": "aws-marketplace",
-                    "virtualization-type": "hvm",
-                    "product-code": "aw0evgkw8e5c1q413zgy5pjce"
-                },
-                "most_recent": true
-            },
+            "source_ami": "{{user `base_ami`}}"
             "instance_type": "{{user `instance_size`}}",
             "ssh_username": "{{user `ssh_username`}}",
             "associate_public_ip_address": true,
