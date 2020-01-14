@@ -1,7 +1,7 @@
 {
     "variables": {
-        "aws_access_key": "{{env `aws_access_key`}}",
-        "aws_secret_key": "{{env `aws_secret_key}}",
+        "aws_access_key": "",
+        "aws_secret_key": "",
         "instance_size": "t2.small",
         "ami_name": "ami-dragen",
         "base_ami": "ami-1853ac65",
