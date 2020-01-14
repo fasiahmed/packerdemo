@@ -1,11 +1,11 @@
 {
     "variables": {
-        "aws_access_key": "",
-        "aws_secret_key": "",
+        "aws_access_key": "{{env `aws_access_key`}}",
+        "aws_secret_key": "{{env `aws_secret_key}}",
         "instance_size": "t2.small",
         "ami_name": "ami-dragen",
         "base_ami": "ami-1853ac65",
-        "ssh_username": "ec2-user",
+        "ssh_username": "centos",
         "vpc_id": "",
         "vpc_region": "",
         "subnet_id": ""
@@ -16,11 +16,31 @@
             "access_key": "{{user `aws_access_key`}}",
             "secret_key": "{{user `aws_secret_key`}}",
             "region": "{{user `vpc_region`}}",
-            "source_ami": "{{user `base_ami`}}",
+            "source_ami_filter": {
+                "filters": {
+                    "owner-alias": "aws-marketplace",
+                    "virtualization-type": "hvm",
+                    "product-code": "aw0evgkw8e5c1q413zgy5pjce"
+                },
+                "most_recent": true
+            },
             "instance_type": "{{user `instance_size`}}",
             "ssh_username": "{{user `ssh_username`}}",
+            "asociate_public_ip_address": true,
             "ssh_timeout": "20m",
             "ami_name": "{{user `ami_name`}}",
+            "ami_virtualization_type": "hvm",
+            "encrypt_boot": true,
+            "ami_block_device_mappings": [
+                {
+                    "device_name": "/dev/sda1",
+                    "volume_type": "gp2",
+                    "volume_size": 8,
+                    "encrypted": true,
+                    "delete_on_termination": true
+                }
+                ],
+            "communicator": "ssh",
             "ssh_pty": "true",
             "vpc_id": "{{user `vpc_id`}}",
             "subnet_id": "{{user `subnet_id`}}",
@@ -37,6 +57,7 @@
         {
         "type": "shell",
         "inline": [
+            "echo '****************** INSTALLING NGINX LATEST VERSION ********************'",
             "sudo yum update -y",
             "sudo yum install -y git",
             "sudo yum install -y nginx"
