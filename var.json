@@ -1,8 +1,0 @@
-{
-  "vpc_region": "eu-central-1",
-  "base_ami": "ami-010fae13a16763bb4",
-  "instance_size": "t2.small",
-  "ssh_username": "ec2-user",
-  "vpc_id": "vpc-883d73e3",
-  "subnet_id": "subnet-3ee79d73"
-}
