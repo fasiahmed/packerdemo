@@ -1,0 +1,30 @@
+---
+- name: include OS specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+  - '{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml'
+  - '{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml'
+  - '{{ ansible_distribution }}.yml'
+  - '{{ ansible_os_family }}.yml'
+  tags:
+  - motd
+  - motd-install
+  - motd-config
+
+- name: include installation tasks
+  import_tasks: install.yml
+  tags:
+  - motd
+  - motd-install
+
+- name: include configuration tasks
+  import_tasks: config.yml
+  tags:
+  - motd
+  - motd-config
+
+- name: flush handlers
+  meta: flush_handlers
+  when:
+  - motd
+  - motd_flush_handlers

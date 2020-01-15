@@ -1,0 +1,6 @@
+---
+- name: Ensure packages
+  package:
+    name: '{{ item }}'
+    state: '{{ motd_package_state }}'
+  with_items: '{{ motd_package_names }}'

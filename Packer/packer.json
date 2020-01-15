@@ -3,10 +3,10 @@
         "aws_access_key": "",
         "aws_secret_key": "",
         "instance_size": "t2.small",
-        "ami_name": "ami-PackerDemo",
+        "ami_name": "PackerAMI",
         "ssh_username": "centos",
         "vpc_id": "",
-        "vpc_region": "eu-central-1",
+        "vpc_region": "",
         "subnet_id": ""
     },
     "builders":[
@@ -49,8 +49,16 @@
         "type": "shell",
         "inline": [
             "sudo yum update -y",
+            "sudo yum install -y epel-release",
             "sudo yum install -y ansible"
             ]
+        },
+        {
+          "type": "ansible-local",
+          "playbook_file": "../Ansible/site.yml",
+          "role_paths": [
+            "../Ansible/roles/motd"
+          ]
         }
       ]
 

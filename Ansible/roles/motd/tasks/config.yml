@@ -1,0 +1,35 @@
+---
+- name: Copy motd profile.d script to target host
+  copy:
+    src: 'ansible_motd.sh'
+    dest: '/etc/profile.d/xx_ansible_motd.sh'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create directory /etc/ansible_motd.d
+  file:
+    path: '/etc/ansible_motd.d'
+    state: directory
+    mode: 0755
+
+- name: Copy ansible_motd to target host
+  template:
+    src: 'ansible_motd.j2'
+    dest: '/etc/ansible_motd.d/00_ansible_info'
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy deployinfo_motd to target host if configured
+  template:
+    src: 'deployinfo_motd.j2'
+    dest: '/etc/ansible_motd.d/10_deploy_info'
+    owner: root
+    group: root
+    mode: '0644'
+  when: motd_deploy_info is defined
+- name: Remove deployinfo_motd from target host if not configured
+  file:
+    path: '/etc/ansible_motd.d/10_deploy_info'
+    state: absent
+  when: motd_deploy_info is not defined

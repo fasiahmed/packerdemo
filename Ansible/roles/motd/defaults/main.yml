@@ -1,0 +1,8 @@
+---
+motd_package_state: present
+motd_service_state: started
+motd_service_enabled: true
+motd_flush_handlers: true
+motd_ansible_managed_server: 'This Server is managed by Ansible. Any change will be overridden!'
+motd_git_repo: 'https://cr.ilabsystems.com/infrastructure/ansible-bluebox.git'
+motd_doc_url: "https://sparklink.collaboration.agilent.com/collector/pages.action?key=SRE"
