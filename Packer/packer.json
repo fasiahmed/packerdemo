@@ -60,6 +60,15 @@
             "../Ansible/roles/motd"
           ]
         }
-      ]
+      ],
+    "post-processors": [
+          [
+            {
+              "output": "manifest.json",
+              "strip_path": true,
+              "type": "manifest"
+            }
+          ]
+        ]
 
 }
