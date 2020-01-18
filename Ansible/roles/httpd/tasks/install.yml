@@ -1,0 +1,54 @@
+---
+- name: package
+  package:
+    name: '{{ item }}'
+    state: '{{ httpd_package_state }}'
+  with_items: '{{ httpd_package_names }}'
+  notify: restart httpd
+
+- name: '{{ httpd_web_root }}'
+  file:
+    path: '{{ httpd_web_root }}'
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: 'copy content to {{ httpd_document_root }}'
+  copy:
+    src:   content/
+    dest: '{{httpd_document_root}}/'
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: '{{ httpd_sites_file_path }}'
+  file:
+    path: '{{ httpd_sites_file_path }}'
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: symlink
+  when: httpd_symlinks is defined
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items: '{{ httpd_symlinks }}'
+
+- name: group
+  group:
+    name: '{{ httpd_group_name }}'
+    gid: '{{ httpd_group_gid }}'
+    system: true
+  when: httpd_usergroup_external == false
+
+- name: user
+  user:
+    name: '{{ httpd_user_name }}'
+    home: '{{ httpd_user_home }}'
+    group: '{{ httpd_user_group }}'
+    shell: '{{ httpd_user_shell }}'
+  when: httpd_usergroup_external == false

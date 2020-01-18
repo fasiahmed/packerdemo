@@ -1,0 +1,35 @@
+---
+- name: include OS specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+  - '{{ ansible_distribution }}{{ ansible_distribution_major_version }}.yml'
+  - '{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml'
+  - '{{ ansible_distribution }}.yml'
+  - '{{ ansible_os_family }}.yml'
+  tags:
+  - httpd
+  - httpd-install
+  - httpd-config
+  - httpd-service
+
+- name: include installation tasks
+  import_tasks: install.yml
+  tags:
+  - httpd
+  - httpd-install
+
+- name: include configuration tasks
+  import_tasks: config.yml
+  tags:
+  - httpd
+  - httpd-config
+
+- name: flush handlers
+  meta: flush_handlers
+  when: httpd_flush_handlers
+
+- name: include service tasks
+  import_tasks: service.yml
+  tags:
+  - httpd
+  - httpd-service

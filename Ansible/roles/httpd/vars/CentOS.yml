@@ -1,0 +1,8 @@
+---
+# Package
+httpd_package_names:
+- httpd
+- mod_ssl
+# Service
+httpd_service_names:
+- httpd

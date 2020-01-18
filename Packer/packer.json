@@ -6,7 +6,7 @@
         "ami_name": "PackerAMI",
         "ssh_username": "centos",
         "vpc_id": "",
-        "vpc_region": "",
+        "vpc_region": "eu-central-1",
         "subnet_id": ""
     },
     "builders":[
@@ -57,14 +57,15 @@
           "type": "ansible-local",
           "playbook_file": "../Ansible/site.yml",
           "role_paths": [
-            "../Ansible/roles/motd"
+            "../Ansible/roles/motd",
+            "../Ansible/roles/httpd"
           ]
         }
       ],
     "post-processors": [
           [
             {
-              "output": "manifest.json",
+              "output": "../manifest.json",
               "strip_path": true,
               "type": "manifest"
             }

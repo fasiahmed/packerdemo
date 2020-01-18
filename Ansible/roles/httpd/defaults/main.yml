@@ -1,0 +1,64 @@
+---
+# Role
+httpd_flush_handlers: true
+# Package
+httpd_package_state: present
+# Service
+httpd_service_state: started
+httpd_service_enabled: true
+# Group and user
+httpd_usergroup_external: false
+httpd_group_name: apache
+httpd_group_gid: 48
+httpd_user_name: apache
+httpd_user_home: /usr/share/httpd
+httpd_user_shell: /sbin/nologin
+httpd_user_group: '{{ httpd_group_name }}'
+# Config
+httpd_server_root_state: link
+httpd_symlinks: []
+httpd_server_root: /etc/httpd
+httpd_server_root_state: directory
+httpd_config_file_template: httpd.conf.j2
+httpd_config_file_path: '{{ httpd_server_root }}/conf'
+httpd_config_file_name: httpd.conf
+httpd_config_file: '{{ httpd_config_file_path }}/{{ httpd_config_file_name }}'
+httpd_supplemental_config_file_path: '{{ httpd_server_root }}/conf.d'
+httpd_sites_file_path: '{{ httpd_server_root }}/sites.d'
+httpd_web_root: /var/www
+httpd_document_root: '{{ httpd_web_root }}/html'
+httpd_listen_enabled: true
+httpd_listen: 9000
+httpd_server_admin: root@localhost
+httpd_error_log: logs/error_log
+httpd_log_level: warn
+# httpd_trace_enable must be a string. DO NOT USE boolean.
+httpd_trace_enable: 'Off'
+httpd_ssl_path: '{{ httpd_config_file_path }}/ssl'
+httpd_certificate_path: '{{ httpd_ssl_path }}/certs'
+httpd_sites_path: '{{ httpd_server_root }}/sites.d'
+httpd_cgi_bin_path: '{{ httpd_web_root }}/cgi-bin'
+httpd_ssl_pass_dialog_path: '/usr/libexec/httpd-ssl-pass-dialog'
+httpd_base_conf_folders:
+- path: '{{ httpd_config_file_path }}'
+  owner: root
+  group: root
+  mode: '0755'
+- path: '{{ httpd_ssl_path }}'
+  owner: root
+  group: root
+  mode: '0755'
+- path: '{{ httpd_certificate_path }}'
+  owner: root
+  group: root
+  mode: '0755'
+- path: '{{ httpd_sites_path }}'
+  owner: root
+  group: root
+  mode: '0755'
+- path: '{{ httpd_document_root }}'
+  owner: '{{ httpd_user_name }}'
+  group: '{{ httpd_group_name }}'
+  mode: '0755'
+httpd_dir_module_directory_index: index.html index.php index.htm index.html.var
+httpd_use_templatefile: true

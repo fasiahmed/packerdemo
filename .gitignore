@@ -1,0 +1,6 @@
+# Local .DS_Store
+.DS_Store
+
+# Don't commit vagrant boxes/config
+.vagrant
+*.retry

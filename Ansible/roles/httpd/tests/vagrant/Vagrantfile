@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+servers = YAML.load_file(File.expand_path(File.join(__FILE__, '..', 'servers.yml')))
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  servers.each do |server|
+    config.vm.define server["name"] do |machine|
+      machine.vm.box = server["box"]
+      machine.vm.box_url = server["box_url"]
+      machine.vm.hostname = server["name"]
+
+      if server.has_key?("forwarded_port_host") and server.has_key?("forwarded_port_guest")
+        machine.vm.network :forwarded_port, guest: server["forwarded_port_guest"], host: server["forwarded_port_host"]
+      end
+
+      if server.has_key?("network_type")
+        machine.vm.network :private_network, type: server["network_type"]
+      end
+      if server.has_key?("ip")
+        machine.vm.network :private_network, ip: server["ip"]
+      end
+
+      machine.vm.provider :virtualbox do |vb|
+        vb.name = server["name"]
+        if server.key?("memory")
+          vb.memory = server["memory"]
+        end
+        if server.key?("cpus")
+          vb.cpus = server["cpus"]
+        end
+      end
+
+    end
+  end
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "../../../../site.yml"
+    ansible.raw_arguments = ["--diff"]
+    ansible.groups = Hash.new()
+    end
+    extra_vars_file = File.expand_path(File.join(__FILE__, '..', 'extra.vars'))
+  end

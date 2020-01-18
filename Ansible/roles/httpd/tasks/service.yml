@@ -1,0 +1,7 @@
+---
+- name: Ensure service
+  service:
+    name: '{{ item }}'
+    state: '{{ httpd_service_state }}'
+    enabled: '{{ httpd_service_enabled }}'
+  with_items: '{{ httpd_service_names }}'
